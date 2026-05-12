@@ -1,0 +1,10 @@
+{
+  "sections": {
+    "mr_fluffy_home": {
+      "type": "mr-fluffy-home"
+    }
+  },
+  "order": [
+    "mr_fluffy_home"
+  ]
+}
