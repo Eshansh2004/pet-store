@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 import './styles.css';
 
-const logo = '/mr-fluffy-logo.png';
+const logo = window.MR_FLUFFY_LOGO || '/mr-fluffy-logo.png';
 
 const petPhotos = [
   'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1200&q=85',

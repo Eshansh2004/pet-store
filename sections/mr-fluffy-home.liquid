@@ -6,229 +6,33 @@
   endif
 %}
 
-<section class="mf-site" data-mr-fluffy>
-  <nav class="mf-nav" aria-label="Main navigation">
-    <a class="mf-brand" href="{{ routes.root_url }}">
-      <img src="{{ logo_url }}" alt="{{ shop.name | default: 'MR Fluffy' | escape }}" width="56" height="56" loading="eager">
-      <span>MR Fluffy</span>
-    </a>
-    <div class="mf-nav__links">
-      <a href="#home">Home</a>
-      <a href="#shop">Shop</a>
-      <a href="#categories">Categories</a>
-      <a href="#about">About Us</a>
-      <a href="#tips">Pet Care Tips</a>
-      <a href="#contact">Contact</a>
-    </div>
-    <div class="mf-nav__actions">
-      <label class="mf-search">
-        <span class="visually-hidden">Search products</span>
-        <input type="search" placeholder="Search treats..." data-mf-search>
-      </label>
-      <button class="mf-icon-button" type="button" aria-label="Wishlist">♡</button>
-      <button class="mf-icon-button" type="button" aria-label="Cart">🛍</button>
-      <button class="mf-icon-button" type="button" aria-label="Toggle color mode" data-mf-mode>☾</button>
-    </div>
-  </nav>
+<script>
+  window.MR_FLUFFY_LOGO = {{ logo_url | json }};
+</script>
 
-  <header id="home" class="mf-hero">
-    <div class="mf-hero__copy">
-      <p class="mf-pill">Soft launch: 25% off cozy essentials</p>
-      <h1>Everything Your <span>Fluffy Friend</span> Loves</h1>
-      <p class="mf-lede">Premium dog and cat food, cozy beds, joyful toys, gentle grooming, and everyday pet care picked for happier little rituals at home.</p>
-      <div class="mf-actions">
-        <a class="mf-button mf-button--primary" href="#shop">Shop Now</a>
-        <a class="mf-button mf-button--secondary" href="#categories">Explore Collection</a>
-      </div>
-      <div class="mf-stats">
-        <strong>4.9 rating</strong>
-        <strong>24h dispatch</strong>
-        <strong>Vet reviewed</strong>
-      </div>
-    </div>
-    <div class="mf-hero__media">
-      <div class="mf-glow"></div>
-      <img src="{{ logo_url }}" alt="MR Fluffy dog and cat logo" width="760" height="490" loading="eager">
-      <span class="mf-float mf-float--left">🐶 Happy pup kit</span>
-      <span class="mf-float mf-float--right">🐱 Cat nap sale</span>
-    </div>
-  </header>
+<div id="root" class="mr-fluffy-react-root"></div>
 
-  <div id="shop" class="mf-offer">
-    <strong>Limited-time cuddle cart: save up to 25% on best sellers</strong>
-    <span data-mf-countdown>08:24:00</span>
-  </div>
-
-  <section class="mf-trust">
-    <p>Trusted by pet-loving homes and care partners</p>
-    <div>
-      <span>Paw Pantry</span>
-      <span>Cozy Tails</span>
-      <span>Vet Circle</span>
-      <span>Happy Walks</span>
-      <span>Whisker Club</span>
-    </div>
+<noscript>
+  <section class="mf-noscript">
+    <img src="{{ logo_url }}" alt="MR Fluffy" width="320" height="206">
+    <h1>Everything Your Fluffy Friend Loves</h1>
+    <p>Premium pet products for dogs and cats. Please enable JavaScript to experience the full MR Fluffy storefront.</p>
   </section>
-
-  <section id="categories" class="mf-section">
-    <div class="mf-section__head">
-      <p>Curated for dogs and cats</p>
-      <h2>Featured Categories</h2>
-      <span>Everything is organized around real daily pet moments, from breakfast bowls to bedtime nests.</span>
-    </div>
-    <div class="mf-grid mf-grid--categories">
-      {% assign categories = 'Dog Food|Balanced bowls for wagging mornings|from $12,Cat Food|Whisker-approved recipes and toppers|from $10,Toys|Bounce, tug, chase, repeat|from $6,Grooming|Spa-day softness at home|from $9,Pet Beds|Cloudy corners for deep naps|from $29,Accessories|Walk-ready style and comfort|from $8' | split: ',' %}
-      {% for item in categories %}
-        {% assign card = item | split: '|' %}
-        <article class="mf-card mf-reveal">
-          <div class="mf-card__icon">{% render 'icon-paw' %}</div>
-          <small>{{ card[2] }}</small>
-          <h3>{{ card[0] }}</h3>
-          <p>{{ card[1] }}</p>
-        </article>
-      {% endfor %}
-    </div>
-  </section>
-
-  <section class="mf-section mf-section--soft">
-    <div class="mf-section__head">
-      <p>Trending products</p>
-      <h2>Best Sellers</h2>
-      <span>High-repeat favorites with warm reviews, gentle ingredients, and little sparks of joy.</span>
-    </div>
-    <div class="mf-filters" aria-label="Product filters">
-      <button type="button" class="is-active" data-mf-filter="all">All</button>
-      <button type="button" data-mf-filter="dogs">Dogs</button>
-      <button type="button" data-mf-filter="cats">Cats</button>
-      <button type="button" data-mf-filter="puppy">Puppy</button>
-      <button type="button" data-mf-filter="senior">Senior</button>
-    </div>
-    <div class="mf-grid mf-grid--products">
-      {% assign products = 'Sunday Roast Kibble|Dogs|Adult|24|32|https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?auto=format&fit=crop&w=900&q=85,Cloud Nap Donut Bed|Cats|All Ages|39|48|https://images.unsplash.com/photo-1545249390-6bdfa286032f?auto=format&fit=crop&w=900&q=85,Minty Pup Dental Bones|Dogs|Puppy|14|18|https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=900&q=85,Whisker Joy Tuna Bites|Cats|Senior|12|16|https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?auto=format&fit=crop&w=900&q=85,Bouncy Brunch Toy Set|Dogs|All Ages|19|25|https://images.unsplash.com/photo-1601979031925-424e53b6caaa?auto=format&fit=crop&w=900&q=85,Peach Silk Grooming Mist|Cats|Adult|17|22|https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=900&q=85' | split: ',' %}
-      {% for item in products %}
-        {% assign product = item | split: '|' %}
-        <article class="mf-product mf-reveal" data-mf-product data-pet="{{ product[1] | downcase }}" data-age="{{ product[2] | downcase }}">
-          <div class="mf-product__image">
-            <img src="{{ product[5] }}" alt="{{ product[0] | escape }}" width="640" height="560" loading="lazy">
-            <button type="button" aria-label="Add {{ product[0] }} to wishlist" data-mf-wishlist>♡</button>
-          </div>
-          <div class="mf-product__body">
-            <span class="mf-stars">★★★★★ <small>4.9</small></span>
-            <h3>{{ product[0] }}</h3>
-            <p>{{ product[1] }} · {{ product[2] }}</p>
-            <div class="mf-price">
-              <strong>${{ product[3] }}</strong>
-              <s>${{ product[4] }}</s>
-            </div>
-            <button type="button" class="mf-button mf-button--primary" data-mf-add>Sticky Add to Cart</button>
-          </div>
-        </article>
-      {% endfor %}
-    </div>
-  </section>
-
-  <section id="about" class="mf-section">
-    <div class="mf-section__head">
-      <p>Why choose MR Fluffy</p>
-      <h2>Care That Feels Personal</h2>
-      <span>A friendly shopping experience selected for comfort, nutrition, safety, and everyday delight.</span>
-    </div>
-    <div class="mf-grid mf-grid--why">
-      {% assign reasons = 'Premium Quality,Vet Approved,Fast Delivery,Safe Ingredients,Happy Pets Guarantee' | split: ',' %}
-      {% for reason in reasons %}
-        <article class="mf-mini mf-reveal">{% render 'icon-paw' %}<strong>{{ reason }}</strong></article>
-      {% endfor %}
-    </div>
-  </section>
-
-  <section id="tips" class="mf-section mf-section--soft">
-    <div class="mf-section__head">
-      <p>Tiny guides, big comfort</p>
-      <h2>Pet Care Tips</h2>
-      <span>Practical, cheerful notes for healthier routines and happier homes.</span>
-    </div>
-    <div class="mf-grid mf-grid--tips">
-      <article class="mf-tip mf-reveal"><img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=85" alt="Happy dogs" loading="lazy"><h3>Puppy routines</h3><p>Build gentle habits with treats, play windows, and nap-friendly schedules.</p></article>
-      <article class="mf-tip mf-reveal"><img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=900&q=85" alt="Relaxed cat" loading="lazy"><h3>Cat hydration</h3><p>Use wet toppers, fountains, and quiet bowl placements for better daily water intake.</p></article>
-      <article class="mf-tip mf-reveal"><img src="https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?auto=format&fit=crop&w=900&q=85" alt="Dog in cozy room" loading="lazy"><h3>Coat care</h3><p>Match brushes and shampoos to coat length, skin sensitivity, and seasonal shedding.</p></article>
-    </div>
-  </section>
-
-  <section class="mf-section">
-    <div class="mf-section__head">
-      <p>Customer reviews</p>
-      <h2>Loved By Pet Parents</h2>
-      <span>Warm words from homes that shop for comfort, taste, and trust.</span>
-    </div>
-    <div class="mf-grid mf-grid--testimonials">
-      <blockquote class="mf-quote mf-reveal">“My rescue dog is picky, but the Sunday Roast kibble disappeared in minutes.” <cite>Maya R.</cite></blockquote>
-      <blockquote class="mf-quote mf-reveal">“The cat bed is absurdly soft. My tabby claimed it before I removed the tag.” <cite>Leo P.</cite></blockquote>
-      <blockquote class="mf-quote mf-reveal">“Fast delivery, clean ingredients, and a site that makes shopping feel calm.” <cite>Anika S.</cite></blockquote>
-    </div>
-  </section>
-
-  <section class="mf-section mf-section--soft">
-    <div class="mf-section__head">
-      <p>Instagram gallery</p>
-      <h2>Fluffy Moments</h2>
-      <span>A joyful feed of dogs, cats, cozy homes, and little rituals worth sharing.</span>
-    </div>
-    <div class="mf-gallery">
-      <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=85" alt="Dogs outdoors" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=900&q=85" alt="Cat portrait" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=900&q=85" alt="Dog portrait" loading="lazy">
-      <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=900&q=85" alt="Cat at home" loading="lazy">
-    </div>
-  </section>
-
-  <section id="contact" class="mf-newsletter">
-    <div>
-      <p class="mf-pill">Join the MR Fluffy Family</p>
-      <h2>Good deals, gentle tips, happy tails.</h2>
-      <p>Get cozy product drops, limited-time offers, care reminders, and birthday treats for your dog or cat.</p>
-      {% form 'customer', class: 'mf-newsletter__form' %}
-        <input type="hidden" name="contact[tags]" value="newsletter">
-        <label class="visually-hidden" for="NewsletterEmail-{{ section.id }}">Email address</label>
-        <input id="NewsletterEmail-{{ section.id }}" type="email" name="contact[email]" placeholder="your@email.com" required>
-        <button class="mf-button mf-button--primary" type="submit">Sign Up</button>
-      {% endform %}
-    </div>
-    <img src="{{ logo_url }}" alt="MR Fluffy pet graphic" width="460" height="300" loading="lazy">
-  </section>
-
-  <footer class="mf-footer">
-    <div>
-      <img src="{{ logo_url }}" alt="MR Fluffy" width="64" height="64" loading="lazy">
-      <strong>MR Fluffy</strong>
-      <p>A warm pet lifestyle store for everyday food, comfort, play, and care.</p>
-    </div>
-    <div><strong>Quick Links</strong><a href="#home">Home</a><a href="#shop">Shop</a><a href="#categories">Categories</a></div>
-    <div><strong>Support</strong><a href="#contact">Contact</a><a href="#">Delivery</a><a href="#">Returns</a></div>
-    <div><strong>Say hello</strong><p>{{ section.settings.email }}<br>+1 (555) 014-PAWS</p></div>
-  </footer>
-</section>
-
-<button class="mf-chat" type="button" data-mf-chat>AI Pet Picks</button>
+</noscript>
 
 {% schema %}
 {
-  "name": "MR Fluffy homepage",
+  "name": "MR Fluffy React home",
   "settings": [
     {
       "type": "image_picker",
       "id": "logo",
       "label": "Logo override"
-    },
-    {
-      "type": "text",
-      "id": "email",
-      "label": "Contact email",
-      "default": "hello@mrfluffy.pet"
     }
   ],
   "presets": [
     {
-      "name": "MR Fluffy homepage"
+      "name": "MR Fluffy React home"
     }
   ]
 }

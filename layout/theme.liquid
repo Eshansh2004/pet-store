@@ -18,13 +18,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     {{ content_for_header }}
-    {{ 'mr-fluffy.css' | asset_url | stylesheet_tag }}
+    {{ 'mr-fluffy-react.css' | asset_url | stylesheet_tag }}
   </head>
   <body class="template-{{ template.name | handle }}">
     <a class="skip-link" href="#MainContent">Skip to content</a>
-    <main id="MainContent" role="main">
+    <div id="MainContent">
       {{ content_for_layout }}
-    </main>
-    {{ 'mr-fluffy.js' | asset_url | script_tag }}
+    </div>
+    {{ 'mr-fluffy-react.js' | asset_url | script_tag }}
   </body>
 </html>
