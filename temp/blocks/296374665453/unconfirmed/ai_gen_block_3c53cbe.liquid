@@ -1,6 +1,662 @@
+{% doc %}
+  @prompt
+    shopping button landing page with catehories and poular and newly added products
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-shopping-landing-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding: {{ block.settings.section_padding }}px 20px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-shopping-landing__container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-shopping-landing__hero-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .ai-shopping-landing__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 16px;
+  }
+
+  .ai-shopping-landing__subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    margin: 0 0 32px;
+  }
+
+  .ai-shopping-landing__cta-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 16px 40px;
+    background-color: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_radius }}px;
+    font-size: {{ block.settings.button_text_size }}px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-shopping-landing__cta-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+  }
+
+  .ai-shopping-landing__section-{{ ai_gen_id }} {
+    margin-bottom: 60px;
+  }
+
+  .ai-shopping-landing__section-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.section_title_size }}px;
+    color: {{ block.settings.section_title_color }};
+    margin: 0 0 24px;
+    text-align: center;
+  }
+
+  .ai-shopping-landing__categories-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 60px;
+  }
+
+  .ai-shopping-landing__category-{{ ai_gen_id }} {
+    position: relative;
+    border-radius: {{ block.settings.card_radius }}px;
+    overflow: hidden;
+    aspect-ratio: 1;
+    text-decoration: none;
+    display: block;
+  }
+
+  .ai-shopping-landing__category-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-shopping-landing__category-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-shopping-landing__category-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+  }
+
+  .ai-shopping-landing__category-overlay-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    padding: 20px;
+    color: #ffffff;
+  }
+
+  .ai-shopping-landing__category-name-{{ ai_gen_id }} {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .ai-shopping-landing__products-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 24px;
+  }
+
+  .ai-shopping-landing__product-{{ ai_gen_id }} {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .ai-shopping-landing__product-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: {{ block.settings.card_radius }}px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background-color: #f4f4f4;
+  }
+
+  .ai-shopping-landing__product-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-shopping-landing__product-{{ ai_gen_id }}:hover .ai-shopping-landing__product-image-{{ ai_gen_id }} {
+    transform: scale(1.05);
+  }
+
+  .ai-shopping-landing__product-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-shopping-landing__product-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+  }
+
+  .ai-shopping-landing__product-badge-{{ ai_gen_id }} {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: {{ block.settings.badge_color }};
+    color: {{ block.settings.badge_text_color }};
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .ai-shopping-landing__product-title-{{ ai_gen_id }} {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 8px;
+    color: {{ block.settings.product_title_color }};
+  }
+
+  .ai-shopping-landing__product-price-{{ ai_gen_id }} {
+    font-size: 18px;
+    font-weight: 700;
+    color: {{ block.settings.product_price_color }};
+  }
+
+  .ai-shopping-landing__empty-state-{{ ai_gen_id }} {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+    font-style: italic;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-shopping-landing__title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.title_size }}px * 0.7);
+    }
+
+    .ai-shopping-landing__subtitle-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.subtitle_size }}px * 0.85);
+    }
+
+    .ai-shopping-landing__categories-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .ai-shopping-landing__products-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+  }
+{% endstyle %}
+
+<shopping-landing-{{ ai_gen_id }}
+  class="ai-shopping-landing-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-shopping-landing__container-{{ ai_gen_id }}">
+    <div class="ai-shopping-landing__hero-{{ ai_gen_id }}">
+      {% if block.settings.title != blank %}
+        <h1 class="ai-shopping-landing__title-{{ ai_gen_id }}">{{ block.settings.title }}</h1>
+      {% endif %}
+      {% if block.settings.subtitle != blank %}
+        <p class="ai-shopping-landing__subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</p>
+      {% endif %}
+      {% if block.settings.cta_text != blank %}
+        <a href="{{ block.settings.cta_link }}" class="ai-shopping-landing__cta-{{ ai_gen_id }}">
+          {{ block.settings.cta_text }}
+        </a>
+      {% endif %}
+    </div>
+
+    {% if block.settings.show_categories %}
+      <div class="ai-shopping-landing__section-{{ ai_gen_id }}">
+        {% if block.settings.categories_title != blank %}
+          <h2 class="ai-shopping-landing__section-title-{{ ai_gen_id }}">{{ block.settings.categories_title }}</h2>
+        {% endif %}
+        <div class="ai-shopping-landing__categories-{{ ai_gen_id }}">
+          {% for i in (1..6) %}
+            {% liquid
+              assign collection_key = 'category_' | append: i
+              assign collection = block.settings[collection_key]
+            %}
+            {% if collection != blank %}
+              <a href="{{ collection.url }}" class="ai-shopping-landing__category-{{ ai_gen_id }}">
+                {% if collection.featured_image %}
+                  <img
+                    src="{{ collection.featured_image | image_url: width: 400 }}"
+                    alt="{{ collection.featured_image.alt | escape }}"
+                    class="ai-shopping-landing__category-image-{{ ai_gen_id }}"
+                    loading="lazy"
+                    width="400"
+                    height="400"
+                  >
+                {% else %}
+                  <div class="ai-shopping-landing__category-placeholder-{{ ai_gen_id }}">
+                    {{ 'collection-apparel-1' | placeholder_svg_tag }}
+                  </div>
+                {% endif %}
+                <div class="ai-shopping-landing__category-overlay-{{ ai_gen_id }}">
+                  <h3 class="ai-shopping-landing__category-name-{{ ai_gen_id }}">{{ collection.title }}</h3>
+                </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if block.settings.show_popular %}
+      <div class="ai-shopping-landing__section-{{ ai_gen_id }}">
+        {% if block.settings.popular_title != blank %}
+          <h2 class="ai-shopping-landing__section-title-{{ ai_gen_id }}">{{ block.settings.popular_title }}</h2>
+        {% endif %}
+        {% if block.settings.popular_products != blank %}
+          <div class="ai-shopping-landing__products-{{ ai_gen_id }}">
+            {% for product in block.settings.popular_products %}
+              <a href="{{ product.url }}" class="ai-shopping-landing__product-{{ ai_gen_id }}">
+                <div class="ai-shopping-landing__product-image-wrapper-{{ ai_gen_id }}">
+                  {% if product.featured_image %}
+                    <img
+                      src="{{ product.featured_image | image_url: width: 500 }}"
+                      alt="{{ product.featured_image.alt | escape }}"
+                      class="ai-shopping-landing__product-image-{{ ai_gen_id }}"
+                      loading="lazy"
+                      width="500"
+                      height="500"
+                    >
+                  {% else %}
+                    <div class="ai-shopping-landing__product-placeholder-{{ ai_gen_id }}">
+                      {{ 'product-apparel-1' | placeholder_svg_tag }}
+                    </div>
+                  {% endif %}
+                </div>
+                <h3 class="ai-shopping-landing__product-title-{{ ai_gen_id }}">{{ product.title }}</h3>
+                <div class="ai-shopping-landing__product-price-{{ ai_gen_id }}">{{ product.price | money }}</div>
+              </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="ai-shopping-landing__empty-state-{{ ai_gen_id }}">
+            Next, add popular products to showcase
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if block.settings.show_new %}
+      <div class="ai-shopping-landing__section-{{ ai_gen_id }}">
+        {% if block.settings.new_title != blank %}
+          <h2 class="ai-shopping-landing__section-title-{{ ai_gen_id }}">{{ block.settings.new_title }}</h2>
+        {% endif %}
+        {% if block.settings.new_products != blank %}
+          <div class="ai-shopping-landing__products-{{ ai_gen_id }}">
+            {% for product in block.settings.new_products %}
+              <a href="{{ product.url }}" class="ai-shopping-landing__product-{{ ai_gen_id }}">
+                <div class="ai-shopping-landing__product-image-wrapper-{{ ai_gen_id }}">
+                  {% if product.featured_image %}
+                    <img
+                      src="{{ product.featured_image | image_url: width: 500 }}"
+                      alt="{{ product.featured_image.alt | escape }}"
+                      class="ai-shopping-landing__product-image-{{ ai_gen_id }}"
+                      loading="lazy"
+                      width="500"
+                      height="500"
+                    >
+                  {% else %}
+                    <div class="ai-shopping-landing__product-placeholder-{{ ai_gen_id }}">
+                      {{ 'product-apparel-1' | placeholder_svg_tag }}
+                    </div>
+                  {% endif %}
+                  {% if block.settings.show_new_badge %}
+                    <span class="ai-shopping-landing__product-badge-{{ ai_gen_id }}">{{ block.settings.new_badge_text }}</span>
+                  {% endif %}
+                </div>
+                <h3 class="ai-shopping-landing__product-title-{{ ai_gen_id }}">{{ product.title }}</h3>
+                <div class="ai-shopping-landing__product-price-{{ ai_gen_id }}">{{ product.price | money }}</div>
+              </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="ai-shopping-landing__empty-state-{{ ai_gen_id }}">
+            Next, add new products to showcase
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</shopping-landing-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ShoppingLanding{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.style.display = 'block';
+      }
+    }
+
+    customElements.define('shopping-landing-{{ ai_gen_id }}', ShoppingLanding{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Shopping landing page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero section"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Shop Our Collection"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Discover amazing products across all categories"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#666666"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Start Shopping"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "label": "Button text size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#000f9f"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button hover color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Button border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Categories"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_categories",
+      "label": "Show categories",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "categories_title",
+      "label": "Section title",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "collection",
+      "id": "category_1",
+      "label": "Category 1"
+    },
+    {
+      "type": "collection",
+      "id": "category_2",
+      "label": "Category 2"
+    },
+    {
+      "type": "collection",
+      "id": "category_3",
+      "label": "Category 3"
+    },
+    {
+      "type": "collection",
+      "id": "category_4",
+      "label": "Category 4"
+    },
+    {
+      "type": "collection",
+      "id": "category_5",
+      "label": "Category 5"
+    },
+    {
+      "type": "collection",
+      "id": "category_6",
+      "label": "Category 6"
+    },
+    {
+      "type": "header",
+      "content": "Popular products"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_popular",
+      "label": "Show popular products",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "popular_title",
+      "label": "Section title",
+      "default": "Popular Products"
+    },
+    {
+      "type": "product_list",
+      "id": "popular_products",
+      "label": "Products",
+      "limit": 8
+    },
+    {
+      "type": "header",
+      "content": "New products"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_new",
+      "label": "Show new products",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "new_title",
+      "label": "Section title",
+      "default": "Newly Added"
+    },
+    {
+      "type": "product_list",
+      "id": "new_products",
+      "label": "Products",
+      "limit": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "show_new_badge",
+      "label": "Show new badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "new_badge_text",
+      "label": "Badge text",
+      "default": "NEW"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Badge color",
+      "default": "#FF5252"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Product style"
+    },
+    {
+      "type": "range",
+      "id": "section_title_size",
+      "label": "Section title size",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "section_title_color",
+      "label": "Section title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "product_title_color",
+      "label": "Product title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "product_price_color",
+      "label": "Product price color",
+      "default": "#000f9f"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shopping landing page"
+    }
+  ]
+}
 {% endschema %}
