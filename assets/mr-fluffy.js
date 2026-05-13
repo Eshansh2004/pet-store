@@ -20,9 +20,17 @@
   document.querySelectorAll('[data-mf-mode]').forEach(function (button) {
     button.addEventListener('click', function () {
       document.body.classList.toggle('mf-dark');
-      button.textContent = document.body.classList.contains('mf-dark') ? '☀' : '☾';
     });
   });
+
+  var menuButton = document.querySelector('[data-mf-menu-button]');
+  var menu = document.querySelector('[data-mf-menu]');
+  if (menuButton && menu) {
+    menuButton.addEventListener('click', function () {
+      var isOpen = menu.classList.toggle('is-open');
+      menuButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  }
 
   var products = Array.prototype.slice.call(document.querySelectorAll('[data-mf-product]'));
   document.querySelectorAll('[data-mf-filter]').forEach(function (button) {
@@ -43,7 +51,7 @@
   document.querySelectorAll('[data-mf-wishlist]').forEach(function (button) {
     button.addEventListener('click', function () {
       button.classList.toggle('is-loved');
-      button.textContent = button.classList.contains('is-loved') ? '♥' : '♡';
+      button.textContent = button.classList.contains('is-loved') ? 'Loved' : 'Love';
     });
   });
 
